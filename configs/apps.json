@@ -1,0 +1,10 @@
+{
+    "quotes_exporter": {
+        "file": "docker-compose1.yml",
+        "path": "/apps/quotes_exporter",
+        "environments": [
+            "docker-compose1.yml/.django"
+        ],
+        "environment_dir": "docker-compose1.yml"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "node3": {
+        "ip": "127.0.0.1",
+        "port": 22,
+        "login": "asdsada",
+        "password": "asdasda",
+        "is_swarm": true,
+        "is_master_node": false,
+        "swarm_parent": "node1",
+        "install_nginx": false
+    },
+    "node2": {
+        "ip": "127.0.0.1",
+        "port": "22",
+        "login": "user",
+        "password": "password",
+        "is_swarm": false,
+        "is_master_node": true,
+        "swarm_parent": "",
+        "install_nginx": true
+    },
+    "node11": {
+        "ip": "127.0.0.1",
+        "port": "23",
+        "login": "asdsada",
+        "password": "asdasda",
+        "is_swarm": true,
+        "is_master_node": true,
+        "install_nginx": true,
+        "swarm_parent": null
+    }
+}
