@@ -5,6 +5,7 @@ paramiko
 streamlit==1.41.1
 streamlit_extras
 streamlit-modal==0.1.2
+streamlit_code_editor
 # st-pages==0.5.0
 # streamlit-router
 # streamlit-navigation-bar

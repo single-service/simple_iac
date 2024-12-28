@@ -1,4 +1,7 @@
 import json
+import os
+
+import streamlit as st
 
 from models.models import Application
 from services.server_service import ServerService
@@ -14,6 +17,7 @@ class AppsService:
             "dest_path": v.get("dest_path"),
             "is_swarm": v.get("is_swarm"),
             "server": v.get("server"),
+            "environments": v.get("environments")
         }) for k, v in data.items()]
         return normilized_data
     
@@ -21,20 +25,30 @@ class AppsService:
     def del_app(name):
         data = AppsService.open_config()
         del data[name]
+        local_path = f"composes/{name}.yml"
+        if os.path.exists(local_path):
+            os.remove(local_path)
         AppsService.write_config(data)
 
     @staticmethod
-    def add_app(name, local_path, dest_path, is_swarm, server):
+    def add_app(name, local_path, dest_path, is_swarm, server, environments):
         errors = AppsService.validate_data(name, local_path, dest_path, is_swarm, server)
         if errors:
             return False, errors
         data = AppsService.open_config()
+        real_path = f"composes/{name}.yml"
+        print("local_path", local_path)
+        compose_data = local_path.getvalue().decode()
+        with open(real_path, "w") as compose_file:
+            compose_file.write(compose_data)
         data[name] = {
-            "local_path": local_path,
+            "local_path": real_path,
             "dest_path": dest_path,
             "is_swarm": is_swarm,
-            "server": server
+            "server": server,
+            "environments": None
         }
+        
         AppsService.write_config(data)
         return True, None
     
@@ -46,6 +60,13 @@ class AppsService:
             old_body = data[instance_name].copy()
             data[value] = old_body
             del data[instance_name]
+            os.rename(f"composes/{instance_name}.yml", f"composes/{value}.yml")
+        elif field == "local_path":
+            compose_data = value.getvalue().decode()
+            local_path = f"composes/{instance_name}.yml"
+            with open(local_path, "w") as compose_file:
+                compose_file.write(compose_data)
+            data[instance_name]["local_path"] = local_path
         else:
             data[instance_name][field] = value
         AppsService.write_config(data)
@@ -59,16 +80,15 @@ class AppsService:
         else:
             if name in data:
                 errors.append(f"App with name {name} already exist")
-        if not local_path:
+        if local_path is None:
             errors.append("Field local_path is required")
         if not dest_path:
             errors.append("Field dest_path is required")
-        if not is_swarm:
-            errors.append("Field is_swarm is required")
         if not server:
             errors.append("Field is_swarm is required")
         else:
             servers_list = [x.name for x in ServerService.get_config()]
+            print(servers_list)
             if server not in servers_list:
                 errors.append(f"Server {server} doesn't exist")
         return errors

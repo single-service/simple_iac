@@ -49,6 +49,12 @@ class TableView:
                 field = cols[col_number].checkbox(**params)
             elif field_type == "text":
                 field = cols[col_number].text_input(**params)
+            elif field_type == "file":
+                params["accept_multiple_files"] = False
+                params["label"] = params["value"]
+                del params["value"]
+                cols[col_number].write(params["label"])
+                field = cols[col_number].file_uploader(**params)
             self.add_fields.append(field)
             col_number += 1
         add_btn = cols[col_number].button(label="Add", key=f"{self.view_name}_add_btn", type="secondary")
@@ -89,8 +95,13 @@ class TableView:
                     params["accept_multiple_files"] = False
                     params["label"] = params["value"]
                     del params["value"]
-                    cols[col_number].write(params["label"])
+                    file_edit_btn = cols[col_number].button(label=params["label"], type="tertiary", key=f"btn_{params['key']}")
+                    if file_edit_btn:
+                        st.session_state["file_modal_filename"] = params["label"]
+                        self.file_modal.open()
                     cols[col_number].file_uploader(**params)
+                elif type(field_type) == tuple and field_type[0] == "custom":
+                    field_type[1](params, cols[col_number])
                 col_number += 1
             del_btn = cols[col_number].button(label="Del", key=f"{self.view_name}_del_btn_{i}", type="primary")
             del_buttons.append(del_btn)
@@ -122,6 +133,12 @@ class TableView:
     def view(self):
         st.title(self.title)
         self.delete_modal = self._get_modal()
+        self.file_modal = Modal(
+            f"Редактировать файл", 
+            key="file-modal",
+            padding=20,
+            max_width=1500
+        )
         self.add_fields = []
         data = self.get_data_func()
         self._table_headers()

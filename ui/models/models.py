@@ -19,7 +19,7 @@ class Application:
     name: str
     local_path: str
     dest_path: str
-    # environments: Optional[List[str]]
+    environments: Optional[List[str]]
     # environment_dir: str
     is_swarm: bool
     server: str

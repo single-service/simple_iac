@@ -1,0 +1,131 @@
+x-airflow-common:
+  &airflow-common
+  build:
+    context: .
+    dockerfile: ./compose/Dockerfile
+  env_file:
+    - .envs/.airflow
+    - .envs/.mongodb
+    - .envs/.app
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    &airflow-common-depends-on
+    redis:
+      condition: service_healthy
+    postgres:
+      condition: service_healthy
+  restart: always
+
+services:
+  postgres:
+    image: postgres:13
+    env_file:
+      - .envs/.postgres
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+  redis:
+    image: redis:7.2-bookworm
+    expose:
+      - 6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 30s
+      retries: 50
+      start_period: 30s
+    restart: always
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  airflow-worker:
+    <<: *airflow-common
+    command: celery worker
+    healthcheck:
+      # yamllint disable rule:line-length
+      test:
+        - "CMD-SHELL"
+        - 'celery --app airflow.providers.celery.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}" || celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    environment:
+      DUMB_INIT_SETSID: "0"
+
+  airflow-triggerer:
+    <<: *airflow-common
+    command: triggerer
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  mongo:
+    image: mongo
+    env_file:
+      - .envs/.mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-db-volume:/data/db
+    restart: always
+
+  mongo-express:
+    image: mongo-express:latest
+    env_file:
+      - .envs/.mongo_express
+    depends_on:
+        - mongo
+    ports:
+      - "8888:8081"
+
+  rabbitmq:
+    image: rabbitmq
+    env_file:
+        - .envs/.rabbit
+    volumes:
+        - rabbitmq-volume:/var/lib/rabbitmq
+    ports:
+        - 5672:5672   
+        - 15672:15672
+    restart: always
+    healthcheck:
+      test: rabbitmqctl status
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+
+volumes:
+  postgres-db-volume:
+  mongo-db-volume:
+  rabbitmq-volume:
