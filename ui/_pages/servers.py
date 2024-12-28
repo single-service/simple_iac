@@ -1,3 +1,4 @@
-from widgets.servers.servers_list import list_view
+from widgets.servers.servers_list import ServersView
 
-list_view()
+view = ServersView()
+view.view()

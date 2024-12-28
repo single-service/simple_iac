@@ -28,5 +28,15 @@
         "is_master_node": true,
         "install_nginx": true,
         "swarm_parent": null
+    },
+    "asdasd": {
+        "ip": "sadasd",
+        "port": "asdasd",
+        "login": "asdasd",
+        "password": "asdasd",
+        "is_swarm": false,
+        "is_master_node": false,
+        "swarm_parent": "asdad",
+        "install_nginx": false
     }
 }

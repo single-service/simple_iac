@@ -1,6 +1,14 @@
 {
     "app.wapiserv.qrm.ooo": {
         "config_path": "app.wapiserv.qrm.ooo",
-        "is_ssl": true
+        "is_ssl": true,
+        "server": "node1",
+        "port": 2212
+    },
+    "traderhub.ru": {
+        "config_path": "nginx_conf/traderhub.ru.conf",
+        "is_ssl": false,
+        "server": "node4",
+        "port": "811"
     }
 }

@@ -33,7 +33,8 @@ class Registry:
 
 @dataclass
 class Domain:
-    domain: str
-    config_path: str
+    name: str
+    port: int
+    # config_path: str
     is_ssl: bool
     server: str
