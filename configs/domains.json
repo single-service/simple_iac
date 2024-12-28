@@ -10,5 +10,11 @@
         "is_ssl": false,
         "server": "node4",
         "port": "811"
+    },
+    "wiki.traderhub.ru": {
+        "config_path": "nginx_conf/wiki.traderhub.ru.conf",
+        "is_ssl": true,
+        "server": "node3",
+        "port": "90"
     }
 }

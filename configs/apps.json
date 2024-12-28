@@ -1,10 +1,12 @@
 {
     "quotes_exporter": {
-        "file": "docker-compose1.yml",
-        "path": "/apps/quotes_exporter",
+        "local_path": "docker-compose1.yml",
+        "dest_path": "/apps/quotes_exporter",
         "environments": [
             "docker-compose1.yml/.django"
         ],
-        "environment_dir": "docker-compose1.yml"
+        "environment_dir": "docker-compose1.yml",
+        "is_swarm": true,
+        "server": "node1"
     }
 }

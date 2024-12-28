@@ -85,6 +85,12 @@ class TableView:
                     cols[col_number].checkbox(**params)
                 elif field_type == "text":
                     cols[col_number].text_input(**params)
+                elif field_type == "file":
+                    params["accept_multiple_files"] = False
+                    params["label"] = params["value"]
+                    del params["value"]
+                    cols[col_number].write(params["label"])
+                    cols[col_number].file_uploader(**params)
                 col_number += 1
             del_btn = cols[col_number].button(label="Del", key=f"{self.view_name}_del_btn_{i}", type="primary")
             del_buttons.append(del_btn)
