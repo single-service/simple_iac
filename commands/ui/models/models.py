@@ -38,3 +38,11 @@ class Domain:
     # config_path: str
     is_ssl: bool
     server: str
+
+@dataclass
+class DomainFromConfig:
+    name: str
+    port: int
+    config_path: str
+    is_ssl: bool
+    server: str

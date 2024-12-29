@@ -1,12 +1,1 @@
-{
-          "node1": {
-                    "ip": "!@?_gAAAAABncSaIN6dcij_s6yjL_fHoraEBmIW1diVUiEHTuPanTHb3Yxo5SOpSmUX-n_3EMCGUCs3dGn9Tcg_C1A5IpeXa9sXdmQ==",
-                    "port": "22",
-                    "login": "!@?_gAAAAABncSaI1xd4c89--EtDG5ZN5xncM6QMBKzZuU8tru1S_qeaaScn1iGI1dfo8hjx3FUiATTyOIeIWKqAYbUzNrTizXiiXw==",
-                    "password": "!@?_gAAAAABncSaIWRmrmmAVMN0LBJoXTSzQvWqolaNi3oiIMfw0oNcg4pMXj4OE3n-rjs2SXFjx1bXbC-6c-xZb74Jw4AKEIde1Mg==",
-                    "is_swarm": true,
-                    "is_master_node": true,
-                    "swarm_parent": "",
-                    "install_nginx": true
-          }
-}
+{}
