@@ -1,7 +1,7 @@
 {
-    "dockerhub": {
-        "url": null,
-        "login": "singleservice@gmail.com",
-        "password": "123456"
-    }
+          "dockerhub": {
+                    "url": null,
+                    "login": "!@?_gAAAAABncSaIRQYnxcVL5uMP_TRVSOuz52sPiEanuMg98mipfX02Q5ghrLdEcyIoeag9vbjQvkGuwirr0kmZjsNv4RxnHOZCZQgqD963ucoeKxovwuMWCT8=",
+                    "password": "!@?_gAAAAABncSaI3s3A5CSfpgp08EndntgV96x40LACT7fT-wEYNwMHQMEyeExJNQN9bzjqjkho2xyhuNsaNTf0ThvBdg0YKXhmQg=="
+          }
 }

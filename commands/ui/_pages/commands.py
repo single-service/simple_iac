@@ -1,3 +1,5 @@
+import subprocess
+
 import streamlit as st
 from streamlit_extras.row import row as flex_row
 
@@ -56,10 +58,20 @@ for command in COMMANDS:
     command_row.write(command['name'])
     if command.get("params"):
         command_row.text_input(label=f'{command["params"]}(Не обязательный)', key=f"command_param_{command['command']}")
-    command_row.button(
+    command_run_btn = command_row.button(
         label="Выполнить",
         type="primary",
         key=f"command_btn_{command['command']}",
         args=[command['command']]
     )
+    if command_run_btn:
+        
+        command_line = ["python", f"commands/{command['command']}.py"]
+        command_param = command.get("params")
+        if command_param:
+            argument = st.session_state.get(f"command_param_{command['command']}")
+            if argument:
+                command_line.append(f"--{command_param}={argument}")
+        subprocess.Popen(command_line)
+        print("Run", command_line)
     st.divider()

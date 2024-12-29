@@ -1,13 +1,19 @@
 import json
 
 from models.models import Registry
+from services.crypto_service import CryptoService
 
 class DockerRegistryService:
 
     @staticmethod
     def get_config():
         data = DockerRegistryService.open_config()
-        normilized_data = [Registry(**{"name": k, **v}) for k, v in data.items()]
+        normilized_data = [Registry(**{
+            "name": k,
+            "url": v.get("url"),
+            "login": CryptoService.decrypt(v.get("login")),
+            "password": CryptoService.decrypt(v.get("password")),
+        }) for k, v in data.items()]
         return normilized_data
     
     @staticmethod
@@ -24,8 +30,8 @@ class DockerRegistryService:
         data = DockerRegistryService.open_config()
         data[name] = {
             "url": url,
-            "login": login,
-            "password": password,
+            "login": CryptoService.encrypt(login),
+            "password": CryptoService.encrypt(password),
         }
         DockerRegistryService.write_config(data)
         return True, None
@@ -34,11 +40,14 @@ class DockerRegistryService:
     def update_registry(field, value, index):
         data = DockerRegistryService.open_config()
         instance_name = list(data.keys())[index]
+        encrypt_fields = {"login", "password"}
         if field == "name":
             old_body = data[instance_name].copy()
             data[value] = old_body
             del data[instance_name]
         else:
+            if field in encrypt_fields:
+                value = CryptoService.encrypt(value)
             data[instance_name][field] = value
         DockerRegistryService.write_config(data)
 

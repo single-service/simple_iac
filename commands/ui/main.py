@@ -1,5 +1,5 @@
 import streamlit as st
-
+from dotenv import load_dotenv
 
 def index():
     pages = [
@@ -17,5 +17,6 @@ def index():
     pg.run()
 
 if __name__ == "__main__":
+    load_dotenv()
     st.set_page_config(layout="wide")
     index()

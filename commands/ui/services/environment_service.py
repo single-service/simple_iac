@@ -1,6 +1,7 @@
 import os
 
 from services.apps import AppsService
+from services.crypto_service import CryptoService
 
 
 class EnvironmentService:
@@ -15,7 +16,7 @@ class EnvironmentService:
     def create_environment_file(app_name, env_file_name, variables):
         os.makedirs(f"environments/{app_name}", exist_ok=True)
         with open(f"environments/{app_name}/{env_file_name}", "w") as env_file:
-            env_file.write(variables)
+            env_file.write(CryptoService.encrypt(variables))
         data = AppsService.open_config()
         environments = data[app_name].get("environments")
         if environments is not None:
@@ -38,4 +39,4 @@ class EnvironmentService:
         variables = ""
         with open(filepath, "r") as env_file:
             variables = env_file.read()
-        return variables
+        return CryptoService.decrypt(variables)

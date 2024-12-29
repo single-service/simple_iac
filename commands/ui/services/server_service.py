@@ -2,15 +2,25 @@ import os
 import json
 
 from models.models import Server
-from pandas import DataFrame
+from services.crypto_service import CryptoService
+
 
 class ServerService:
 
     @staticmethod
     def get_config():
         data = ServerService.open_config()
-        normilized_data = [Server(**{"name": k, **v}) for k, v in data.items()]
-        # df = DataFrame(normilized_data)
+        normilized_data = [Server(**{
+            "name": k,
+            "ip": CryptoService.decrypt(v.get("ip")),
+            "port": v.get("port"),
+            "login": CryptoService.decrypt(v.get("login")),
+            "password": CryptoService.decrypt(v.get("password")),
+            "is_swarm": v.get("is_swarm"),
+            "is_master_node": v.get("is_master_node"),
+            "swarm_parent": v.get("swarm_parent"),
+            "install_nginx": v.get("install_nginx"),
+        }) for k, v in data.items()]
         return normilized_data
     
     @staticmethod
@@ -26,10 +36,10 @@ class ServerService:
             return False, errors
         data = ServerService.open_config()
         data[name] = {
-            "ip": ip,
+            "ip": CryptoService.encrypt(ip),
             "port": port,
-            "login": login,
-            "password": password,
+            "login": CryptoService.encrypt(login),
+            "password": CryptoService.encrypt(password),
             "is_swarm": is_swarm,
             "is_master_node": is_master_node,
             "swarm_parent": swarm_parent,
@@ -42,11 +52,14 @@ class ServerService:
     def update_server(field, value, index):
         data = ServerService.open_config()
         server_name = list(data.keys())[index]
+        encrypt_fields = {"ip", "login", "password"}
         if field == "name":
             old_body = data[server_name].copy()
             data[value] = old_body
             del data[server_name]
         else:
+            if field in encrypt_fields:
+                value = CryptoService.encrypt(value)
             data[server_name][field] = value
         ServerService.write_config(data)
 

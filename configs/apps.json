@@ -3,7 +3,7 @@
         "local_path": "composes/quotes_exporter.yml",
         "dest_path": "/apps/quotes_exporter",
         "environments": [
-            ".django"
+            "asdasd"
         ],
         "environment_dir": "docker-compose1.yml",
         "is_swarm": true,
