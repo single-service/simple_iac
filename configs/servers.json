@@ -1,1 +1,32 @@
-{}
+{
+          "administrative": {
+                    "ip": "!@?_gAAAAABncVvcdAo7iF1tbJ_157DNA9pqDq3T2xQnY7IJz2gUs6bV1sO6uXKF40WpVBsVmKyJPh4tjjbm5WEzxENYHmKUInHNEA==",
+                    "port": "64022",
+                    "login": "!@?_gAAAAABncVvczPRTnGAfRUu3jbviaKtqmUEyVeYGi8Ax45qnqnbICaFC5gPeriFfSd_jdf7yBCxbXrdGjpaMh7h-lsDTm-gUYg==",
+                    "password": "!@?_gAAAAABncVvcbiCtEYsGE16YURPQKORMTlBcLhi81117VeFcitZrXiDxKSqPmUcITRkjSjG5sEpyW-O2dheYMIZGH0XSwnZrfw==",
+                    "is_swarm": false,
+                    "is_master_node": false,
+                    "swarm_parent": "",
+                    "install_nginx": true
+          },
+          "exporter_server": {
+                    "ip": "!@?_gAAAAABncVvctLeytp2mSms3Pmu17QD7Ocm9G7UtYlPBFSh92KpdqFypXv-sNYhRMPfnU_Lw9mkXYdDD3GFSBcvtRbEcQFJrKA==",
+                    "port": "22",
+                    "login": "!@?_gAAAAABncVvcqn95cOAqcjguqysp7ctQioJ8CFpEHhl1aTWFjnbZvSJamPm59xJ0kwCWypMz9QN1WAD9GWqZTvmBxQzfeg55iw==",
+                    "password": "!@?_gAAAAABncVvcmQ-bhMFDsUoaa-Yvf19_BddN3WfkAeLKv1-Z6uGnu8bFbD8GE6xZFKpSTwh4HfUaw98nDaFrspunF76r9TrQaA==",
+                    "is_swarm": true,
+                    "is_master_node": true,
+                    "swarm_parent": "",
+                    "install_nginx": true
+          },
+          "tester_server": {
+                    "ip": "!@?_gAAAAABncVvcK7GFnGEZlDKg4OSeOt18BKUlEgPSDdOoeEGYzRS0ti8RNEuXD-VoB14oN9tQk0Je7oAtGgzVH2w8XmeY3x5dMg==",
+                    "port": "22",
+                    "login": "!@?_gAAAAABncVvcCkpxh3GxHRVsZHw0JMJgeN_RKns-SaPv8b56X0xbZ7cmBaYG8TnmEKWfmqEoaLfmuQGPT0Kfal8r-KgYi_GpYg==",
+                    "password": "!@?_gAAAAABncVvcSu_o91nftc-q5pybNLikSthUs8-TUo3T1V7AOXYJ8H5cHQibq3v1PpSb3A7BrMza9cNeLR8giGOXh2gr0c1JOQ==",
+                    "is_swarm": true,
+                    "is_master_node": false,
+                    "swarm_parent": "exporter_server",
+                    "install_nginx": false
+          }
+}
