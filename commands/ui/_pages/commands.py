@@ -21,6 +21,11 @@ COMMANDS = [
         "params": None
     },
     {
+        "name": "Проверить конфиги",
+        "command": "validate_configs",
+        "params": None
+    },
+    {
         "name": "Синхронизировать инфраструктуру",
         "command": "sync_infrastructure",
         "params": None

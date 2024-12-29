@@ -12,6 +12,9 @@ decrypt-configs:
 recreate-crypto-token:
 	python commands/recreate_crypto_token.py
 
+validate-configs:
+	python commands/validate_configs.py
+
 sync-infra:
 	python commands/sync_infrastructure.py
 

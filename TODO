@@ -1,11 +1,13 @@
-Add crypting
-Add encrypt and decrypt commands
-Add Readme
-Add recreate crypto token
-
-Add commands
+Add command validate configs
+Add command prepare server
+Add command prepare registries
+Add command prepare app
+Add command prepare environment
+Add command prepare domain
 
 Add CICD template
+
+Add Readme
 
 Remove additional
 Push to github
