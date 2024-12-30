@@ -1,10 +1,13 @@
-Add command prepare app
-Add command prepare domain
-
-Add CICD template
-Add CICD agent
-
++Add command prepare app
++Add command prepare domain
+Add prepare sync infrastructure
+Run commands with params
+Run commands with logger
+Подумать над инфрой в случае изменений
 Complete Readme
 
 Remove additional
 Push to github
+
+Add CICD template
+Add CICD agent

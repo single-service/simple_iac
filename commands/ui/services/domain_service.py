@@ -12,6 +12,7 @@ class DomainService:
         normilized_data = [Domain(**{
             "name": k, 
             "is_ssl": v.get("is_ssl"),
+            "certbot_email": v.get("certbot_email"),
             "server": v.get("server"),
             "port": v.get("port"),
         }) for k, v in data.items()]
@@ -26,8 +27,8 @@ class DomainService:
         DomainService.write_config(data)
 
     @staticmethod
-    def add_domain(name, is_ssl, server, port):
-        errors = DomainService.validate_domain_data(name, is_ssl, server, port)
+    def add_domain(name, is_ssl, certbot_email, server, port):
+        errors = DomainService.validate_domain_data(name, is_ssl, certbot_email, server, port)
         if errors:
             return False, errors
         data = DomainService.open_config()
@@ -37,6 +38,7 @@ class DomainService:
         data[name] = {
             "config_path": config_path,
             "is_ssl": is_ssl,
+            "certbot_email": certbot_email,
             "server": server,
             "port": port
         }
@@ -74,7 +76,7 @@ class DomainService:
         DomainService.write_config(data)
 
     @staticmethod
-    def validate_domain_data(name, is_ssl, server, port):
+    def validate_domain_data(name, is_ssl, certbot_email, server, port):
         errors = []
         data = DomainService.open_config()
         if not name:
@@ -88,6 +90,8 @@ class DomainService:
             servers_list = ServerService.get_config()
             if server not in [x.name for x in servers_list]:
                 errors.append(f"Server {server} doesn't exist")
+        if is_ssl and not certbot_email:
+            errors.append("Field certbot_email is required if is_ssl true")
         if not port:
             errors.append("Field port is required")
         return errors

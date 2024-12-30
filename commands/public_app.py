@@ -34,9 +34,8 @@ if __name__ == "__main__":
     with open("configs/apps.json", "r") as json_file:
         apps = json.load(json_file)
 
-    app_configs_changed = False
-
     for app_name, app_data in apps.items():
+        app_configs_changed = False
         server_data = servers[app_data["server"]]
         client = get_ssh_client(
             ip=CryptoService.decrypt(server_data["ip"]),

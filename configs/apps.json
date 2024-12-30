@@ -5,6 +5,7 @@
         "is_swarm": false,
         "server": "administrative",
         "environments": [
+            ".notification_service",
             ".notification_service"
         ],
         "swarm_stack": null

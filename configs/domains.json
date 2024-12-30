@@ -1,1 +1,9 @@
-{}
+{
+    "traderhub.online": {
+        "config_path": "nginx_conf/traderhub.online.conf",
+        "is_ssl": true,
+        "certbot_email": "d.i.sosedov@gmail.com",
+        "server": "administrative",
+        "port": "8111"
+    }
+}

@@ -1,3 +1,5 @@
+import socket
+
 import paramiko
 
 def get_ssh_client(ip, port, username, password):
@@ -191,3 +193,30 @@ def get_remote_file_content(client, path):
         remote_content = remote_file.read().decode()
     sftp.close()
     return remote_content
+
+
+def ping_domain(domain):
+    ip_address = None
+    try:
+        ip_address = socket.gethostbyname(domain)
+    except socket.gaierror:
+        print(f"Не удалось разрешить домен: {domain}")
+    return ip_address
+
+def set_link4nginx_conf(client, domain):
+    command = f"sudo ln -s /etc/nginx/sites-available/{domain} /etc/nginx/sites-enabled/"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+
+def restart_nginx(client):
+    command = "sudo service nginx restart"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+
+def install_ssl2domain(client, domain, email):
+    command = f"sudo certbot --nginx -d {domain} --non-interactive --agree-tos --email {email}"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())

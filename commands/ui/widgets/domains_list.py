@@ -10,13 +10,14 @@ class DomainsView(TableView):
 
     def __init__(self):
         self.headers = [
-            "№", "Domain", "Is SSL", "Host", "Port", ""
+            "№", "Domain", "Is SSL", "Certbot Email", "Host", "Port", ""
         ]
         self.instance_name = "домен"
         self.instance_name_plural = "доменов"
         self.data_fields = {
             "name": "text",
             "is_ssl": "bool",
+            "certbot_email": "text",
             "server": "text",
             "port": "text",
         }

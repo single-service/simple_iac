@@ -38,6 +38,7 @@ class Domain:
     port: int
     # config_path: str
     is_ssl: bool
+    certbot_email: Optional[str]
     server: str
 
 @dataclass
@@ -46,4 +47,5 @@ class DomainFromConfig:
     port: int
     config_path: str
     is_ssl: bool
+    certbot_email: Optional[str]
     server: str
