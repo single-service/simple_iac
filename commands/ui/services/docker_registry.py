@@ -60,8 +60,6 @@ class DockerRegistryService:
         else:
             if name in data:
                 errors.append(f"Docker registry with name {name} already exist")
-        if not url:
-            errors.append("Field url is required")
         if not login:
             errors.append("Field login is required")
         if not password:

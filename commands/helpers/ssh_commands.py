@@ -134,3 +134,11 @@ def join_swarm(client, join_command):
         print(stderr.read().decode())
     else:
         print("Сервер уже присоединен к кластеру.")
+
+def docker_registry_login(client, username, password, url=None):
+    command = f"docker login -u {username} -p {password}"
+    if url:
+        command = f"{command} {url}"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())

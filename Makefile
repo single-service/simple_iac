@@ -15,7 +15,7 @@ recreate-crypto-token:
 validate-configs:
 	python commands/validate_configs.py
 
-sync-infra:
+sync-infrastructure:
 	python commands/sync_infrastructure.py
 
 sync-apps:
@@ -26,6 +26,3 @@ sync-domains:
 
 sync-registries:
 	python commands/login_docker_registry.py
-
-sync-envs:
-	python commands/confirm_environments.py

@@ -41,19 +41,14 @@ COMMANDS = [
         "params": "server"
     },
     {
-        "name": "Настроить домены",
-        "command": "prepare_domains",
-        "params": "domain"
-    },
-    {
         "name": "Опубликовать приложения",
         "command": "public_app",
         "params": "app"
     },
     {
-        "name": "Применить environments",
-        "command": "confirm_environments",
-        "params": "app"
+        "name": "Настроить домены",
+        "command": "prepare_domains",
+        "params": "domain"
     },
 ]
 
