@@ -22,6 +22,7 @@ class Application:
     environments: Optional[List[str]]
     # environment_dir: str
     is_swarm: bool
+    swarm_stack: Optional[str]
     server: str
 
 @dataclass

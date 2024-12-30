@@ -19,7 +19,7 @@ class EnvironmentService:
             env_file.write(CryptoService.encrypt(variables))
         data = AppsService.open_config()
         environments = data[app_name].get("environments")
-        if environments is not None:
+        if environments is None:
             environments = []
         environments.append(env_file_name)
         data[app_name]["environments"] = environments

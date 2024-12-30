@@ -1,0 +1,19 @@
+version: '3.3'
+
+volumes:
+  email_manager_db_data:
+  email_manager_static_volume:
+  email_manager_media_volume:
+
+services:
+  email_manager:
+    image: singleservice/notificaton-manager:0.1.0
+    volumes:
+      - email_manager_db_data:/notification_manager/database
+      - email_manager_static_volume:/notification_manager/static
+      - email_manager_media_volume:/notification_manager/media
+    ports:
+      - "8111:80"
+    env_file:
+      - .envs/.notification_service
+    restart: on-failure

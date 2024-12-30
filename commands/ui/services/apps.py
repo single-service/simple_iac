@@ -17,7 +17,8 @@ class AppsService:
             "dest_path": v.get("dest_path"),
             "is_swarm": v.get("is_swarm"),
             "server": v.get("server"),
-            "environments": v.get("environments")
+            "environments": v.get("environments"),
+            "swarm_stack": v.get("swarm_stack"),
         }) for k, v in data.items()]
         return normilized_data
     
@@ -31,8 +32,8 @@ class AppsService:
         AppsService.write_config(data)
 
     @staticmethod
-    def add_app(name, local_path, dest_path, is_swarm, server, environments):
-        errors = AppsService.validate_data(name, local_path, dest_path, is_swarm, server)
+    def add_app(name, local_path, dest_path, is_swarm, swarm_stack, server, environments):
+        errors = AppsService.validate_data(name, local_path, dest_path, is_swarm, swarm_stack, server)
         if errors:
             return False, errors
         data = AppsService.open_config()
@@ -45,6 +46,7 @@ class AppsService:
             "local_path": real_path,
             "dest_path": dest_path,
             "is_swarm": is_swarm,
+            "swarm_stack": swarm_stack,
             "server": server,
             "environments": None
         }
@@ -72,7 +74,7 @@ class AppsService:
         AppsService.write_config(data)
 
     @staticmethod
-    def validate_data(name, local_path, dest_path, is_swarm, server):
+    def validate_data(name, local_path, dest_path, is_swarm, swarm_stack, server):
         errors = []
         data = AppsService.open_config()
         if not name:
@@ -84,6 +86,8 @@ class AppsService:
             errors.append("Field local_path is required")
         if not dest_path:
             errors.append("Field dest_path is required")
+        if is_swarm and not swarm_stack:
+            errors.append("Field swarm_stack is required if is_swarm true")
         if not server:
             errors.append("Field is_swarm is required")
         else:

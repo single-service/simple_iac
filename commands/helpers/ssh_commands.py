@@ -142,3 +142,52 @@ def docker_registry_login(client, username, password, url=None):
     stdin, stdout, stderr = client.exec_command(command)
     print(stdout.read().decode())
     print(stderr.read().decode())
+
+def docker_pull_container(client, image):
+    command = f"docker pull {image}"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+
+def docker_compose_run(client, path, compose_file_name):
+    command = f"cd {path} && docker compose -f {compose_file_name} up -d --build --remove-orphans"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+
+def docker_stack_run(client, path, compose_file_name, stack_name):
+    command = f"cd {path} && docker stack deploy -c {compose_file_name} {stack_name}"
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+
+def create_dirs(client, path):
+    dest_path = path.split("/")[1:]
+    for i in range(len(dest_path)):
+        cur_path = "/".join(dest_path[:i+1])
+        stdin, stdout, stderr = client.exec_command(f'if [ ! -d /{cur_path} ]; then mkdir /{cur_path}; fi')
+        print(f"Dir: {cur_path} created!")
+
+def check_file_exists(client, path):
+    sftp = client.open_sftp()
+    try:
+        # Проверяем, существует ли файл на сервере
+        sftp.stat(path)
+        file_exists = True
+    except FileNotFoundError:
+        file_exists = False
+    sftp.close()
+    return file_exists
+
+def copy_file2server(client, local_path, server_path):
+    sftp = client.open_sftp()
+    sftp.put(local_path, server_path)
+    sftp.close()
+
+
+def get_remote_file_content(client, path):
+    sftp = client.open_sftp()
+    with sftp.open(path, 'r') as remote_file:
+        remote_content = remote_file.read().decode()
+    sftp.close()
+    return remote_content

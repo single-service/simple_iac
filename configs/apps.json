@@ -1,1 +1,12 @@
-{}
+{
+    "notik": {
+        "local_path": "composes/notik.yml",
+        "dest_path": "/apps/notik",
+        "is_swarm": false,
+        "server": "administrative",
+        "environments": [
+            ".notification_service"
+        ],
+        "swarm_stack": null
+    }
+}

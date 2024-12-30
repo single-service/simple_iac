@@ -10,7 +10,7 @@ class AppsView(TableView):
 
     def __init__(self):
         self.headers = [
-            "№", "Name", "Docker Compose", "Dest path", "is_swarm", "Server", "Environments", ""
+            "№", "Name", "Docker Compose", "Dest path", "is_swarm", "Swarm stack", "Server", "Environments", ""
         ]
         self.instance_name = "приложение"
         self.instance_name_plural = "приложений"
@@ -19,6 +19,7 @@ class AppsView(TableView):
             "local_path": "file",
             "dest_path": "text",
             "is_swarm": "bool",
+            "swarm_stack": "text",
             "server": "text",
             "environments": ("custom", self.environments_field)
         }
