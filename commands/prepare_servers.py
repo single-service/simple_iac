@@ -49,10 +49,7 @@ def get_swarm_join_token(
     token = get_swarm_token(client)
     return token
 
-if __name__ == "__main__":
-    # прием аргумента
-    # Валидация конфига servers
-
+def prepare_servers_func():
     servers_data = {}
     with open("configs/servers.json", "r") as json_file:
         servers_data = json.load(json_file)
@@ -112,3 +109,6 @@ if __name__ == "__main__":
             swarm_join=token
         )
     print("All servers prepared")
+
+if __name__ == "__main__":
+    prepare_servers_func()

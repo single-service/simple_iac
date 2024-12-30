@@ -3,7 +3,7 @@ from helpers.ssh_commands import get_ssh_client, docker_registry_login
 from ui.services.crypto_service import CryptoService
 
 
-if __name__ == "__main__":
+def prepare_registres_func():
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -31,4 +31,5 @@ if __name__ == "__main__":
         client.close()
     print("Docker Registries login successfull!")
 
-    
+if __name__ == "__main__":
+    prepare_registres_func()

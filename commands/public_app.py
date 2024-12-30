@@ -24,8 +24,7 @@ def crypt_environment_file(path, encrypt=True):
     with open(path, "w") as env_file:
         env_file.write(content)
 
-
-if __name__ == "__main__":
+def prepare_apps_func():
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -107,3 +106,7 @@ if __name__ == "__main__":
         client.close()
         print(f"App {app_name} complited!")
     print("Apps public successful")
+
+
+if __name__ == "__main__":
+    prepare_apps_func()

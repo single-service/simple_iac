@@ -12,8 +12,7 @@ from helpers.ssh_commands import (
 )
 from ui.services.crypto_service import CryptoService
 
-
-if __name__ == "__main__":
+def prepare_domains_func():
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -66,3 +65,7 @@ if __name__ == "__main__":
         client.close()
         print(f"Domain {domain_url} prepared!")
     print("All domains are prepared succesfully!")
+
+
+if __name__ == "__main__":
+    prepare_domains_func()
