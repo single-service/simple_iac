@@ -1,5 +1,6 @@
 import json
 
+from helpers.command_args import parse_args
 from helpers.ssh_commands import (
     get_ssh_client,
     ping_domain,
@@ -12,7 +13,7 @@ from helpers.ssh_commands import (
 )
 from ui.services.crypto_service import CryptoService
 
-def prepare_domains_func():
+def prepare_domains_func(chosen_domain=None):
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -20,6 +21,11 @@ def prepare_domains_func():
     domains = {}
     with open("configs/domains.json", "r") as json_file:
         domains = json.load(json_file)
+
+    if chosen_domain:
+        if chosen_domain not in domains:
+            raise Exception(f"Wrong chosen domain - {chosen_domain}")
+        domains = {k:v for k, v in domains.items() if k == chosen_domain}
 
     for domain_url, domain_data in domains.items():
         server_data = servers[domain_data["server"]]
@@ -68,4 +74,5 @@ def prepare_domains_func():
 
 
 if __name__ == "__main__":
-    prepare_domains_func()
+    domain = parse_args("domain")
+    prepare_domains_func(chosen_domain=domain)

@@ -1,9 +1,11 @@
 import json
+
+from helpers.command_args import parse_args
 from helpers.ssh_commands import get_ssh_client, docker_registry_login
 from ui.services.crypto_service import CryptoService
 
 
-def prepare_registres_func():
+def prepare_registres_func(chosen_server=None):
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -11,6 +13,11 @@ def prepare_registres_func():
     registries = {}
     with open("configs/registries.json", "r") as json_file:
         registries = json.load(json_file)
+
+    if chosen_server:
+        if chosen_server not in servers:
+            raise Exception(f"Wrong chosen server name - {chosen_server}")
+        servers = {k:v for k, v in servers.items() if k == chosen_server}
 
     for server_name, server_data in servers.items():
         client = get_ssh_client(
@@ -32,4 +39,5 @@ def prepare_registres_func():
     print("Docker Registries login successfull!")
 
 if __name__ == "__main__":
-    prepare_registres_func()
+    server = parse_args("server")
+    prepare_registres_func(chosen_server=server)

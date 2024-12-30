@@ -1,5 +1,6 @@
 import json
 
+from helpers.command_args import parse_args
 from helpers.ssh_commands import (
     get_ssh_client, install_docker,
     docker_without_sudo,
@@ -49,11 +50,38 @@ def get_swarm_join_token(
     token = get_swarm_token(client)
     return token
 
-def prepare_servers_func():
+def prepare_servers_func(chosen_server=None):
     servers_data = {}
     with open("configs/servers.json", "r") as json_file:
         servers_data = json.load(json_file)
 
+    if chosen_server:
+        if chosen_server not in servers_data:
+            raise Exception(f"Wrong server name - {chosen_server}")
+        server_name = chosen_server
+        server_data = servers_data[server_name]
+        token = None
+        if server_data['is_swarm'] and not server_data['is_master_node']:
+            master_node_data = servers_data[server_data["swarm_parent"]]
+            token = get_swarm_join_token(
+                ip=CryptoService.decrypt(master_node_data["ip"]),
+                port=int(master_node_data["port"]),
+                login=CryptoService.decrypt(master_node_data["login"]),
+                password=CryptoService.decrypt(master_node_data["password"]),
+            )
+        prepare_server(
+            server_name=server_name,
+            ip=CryptoService.decrypt(server_data["ip"]),
+            port=server_data["port"],
+            login=CryptoService.decrypt(server_data["login"]),
+            password=CryptoService.decrypt(server_data["password"]),
+            is_swarm=server_data["is_swarm"],
+            is_master_node=server_data["is_master_node"],
+            swarm_parent=server_data["swarm_parent"],
+            is_install_nginx=server_data["install_nginx"],
+            swarm_join=token
+        )
+        return
     # серверы без сварма
     servers_without_swarm = {k:v for k, v in servers_data.items() if v['is_swarm'] is False}
     print("servers_without_swarm", servers_without_swarm)
@@ -111,4 +139,5 @@ def prepare_servers_func():
     print("All servers prepared")
 
 if __name__ == "__main__":
-    prepare_servers_func()
+    server = parse_args("server")
+    prepare_servers_func(chosen_server=server)

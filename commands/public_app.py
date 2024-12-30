@@ -1,6 +1,7 @@
 import json
 import yaml
 
+from helpers.command_args import parse_args
 from helpers.ssh_commands import (
     get_ssh_client,
     create_dirs,
@@ -24,7 +25,7 @@ def crypt_environment_file(path, encrypt=True):
     with open(path, "w") as env_file:
         env_file.write(content)
 
-def prepare_apps_func():
+def prepare_apps_func(chosen_app=None):
     servers = {}
     with open("configs/servers.json", "r") as json_file:
         servers = json.load(json_file)
@@ -32,6 +33,11 @@ def prepare_apps_func():
     apps = {}
     with open("configs/apps.json", "r") as json_file:
         apps = json.load(json_file)
+
+    if chosen_app:
+        if chosen_app not in apps:
+            raise Exception(f"Wrong chosen app - {chosen_app}")
+        apps = {k:v for k, v in apps.items() if k == chosen_app}
 
     for app_name, app_data in apps.items():
         app_configs_changed = False
@@ -109,4 +115,5 @@ def prepare_apps_func():
 
 
 if __name__ == "__main__":
-    prepare_apps_func()
+    app = parse_args("app")
+    prepare_apps_func(chosen_app=app)
